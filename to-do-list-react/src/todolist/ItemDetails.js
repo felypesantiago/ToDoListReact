@@ -1,29 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 
-const ItemDetails = (props) => {
-  const[state, setState] = useState({error: null, isLoaded: false});
+import { handleResult } from './Util';
+import { getItem } from './ItemService';
 
+const ItemDetails = () => {
+  const[state, setState] = useState({error: null, isLoaded: false});
   const { id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
-    fetch('http://localhost:8080/items/' + id)
-      .then(res => res.json())
-      .then(
-        result => setState({isLoaded: true,item: result}),
-        (error) => setState({isLoaded: true, error}));
+    getItem(id, 
+      result => setState({isLoaded: true,item: result}), 
+      error => setState({isLoaded: true, error}))
   }, [id]);
 
-  const { error, isLoaded, item } = state;
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  } else if (!isLoaded) {
-    return <div>Loading...</div>;
-  } else {
-    return showItem(item, history);
-  }
+  return handleResult(state, () => showItem(state.item, history));
 }
 
 function showItem(item, history) {

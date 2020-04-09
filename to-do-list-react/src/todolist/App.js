@@ -19,7 +19,7 @@ const App = () => {
           </ul>
           <Link to='/items/0/edit'>
             <button type="button" className="add-button btn btn-default" aria-label="Add item">
-              <span  class="icon fa fa-plus" aria-hidden="true"></span>
+              <span  className="icon fa fa-plus" aria-hidden="true"></span>
             </button> 
           </Link>
         </nav>
